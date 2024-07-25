@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'showstyle.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Welcome, {{ user.firstname }}</h1> 
+    <hr>
+    {{ book.title }}
+    <p>Added by :{{ user.firstname}} {{ user.lastname}}</p>
+    <p>Added on:{{book.created_at}}</p>
+    <p>Last updated_at:{{book.updated_at}}</p>
+    Description :{{book.desc}}
+        <ul>
+            <p>Users who likes the book:</p>
+            {% for user in book.users_who_like.all %}
+            <li>{{ user.firstname }} <a href="/books/{{ book.id }}/unfavorite">Un-Favorite</a></li>
+            {% endfor %}
+        </ul>
+        <a href="/books">Go Back</a>
+</body>
+</html>

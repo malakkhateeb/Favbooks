@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'editstyle.css' %}">
+    <title>Edit</title>
+</head>
+<body>
+    <h1>Welcome, {{ user.firstname }}</h1>
+    <hr>
+    <form action="/books/{{ book.id }}/update" method="post">
+        {% csrf_token %}
+        <input type="text" name="title" value="{{ book.title }}">
+        Description: <textarea name="desc" placeholder="Description">{{ book.desc }}</textarea>
+        <button type="submit">Update</button>
+    </form>
+    <p>Added by: {{ book.uploaded_by.firstname }} {{ book.uploaded_by.lastname }}</p>
+    <p>Added on: {{ book.created_at }}</p>
+    <p>Last updated at: {{ book.updated_at }}</p>
+    <form action="/books/delete" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ book.id }}">
+        <button type="submit">Delete</button>
+    </form>
+    <ul>
+        <p>Users who like the book:</p>
+        {% for user in book.users_who_like.all %}
+        <li>{{ user.firstname }} <a href="/books/{{ book.id }}/unfavorite">Un-Favorite</a></li>
+        {% endfor %}
+    </ul>
+    <a href="/books">Go Back</a>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <h1>
+    {{ book.title }}
+</h1>
+
+
+<hr>
+
+(added by {{ book.uploaded_by.firstname }})
+
+<br>
+{% if user in book.users_who_like.all %}
+<span>This is one of your favorites</span>
+<form action="/books/{{book.id}}/unfavorite" method="post">
+    {% csrf_token %}
+    <button type="submit">UnFavorite</button>
+</form>
+{% else %}
+<form action="/books/{{book.id}}/favorite" method="post">
+    {% csrf_token %}
+    <button type="submit">Add to Favorites</button>
+</form>
+{% endif %}
+
+<hr>
+
+{% if user == book.uploaded_by %}
+
+    <form action="/books/update" method="post">
+    {% csrf_token %}
+    <textarea name="desc" placeholder="Description">{{book.desc}}</textarea>
+    <button type="submit">Update</button>
+    </form>
+
+    <form action="/books/delete" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{book.id}}"/>
+        <button type="submit">delete</button>
+        </form>
+
+{% else %}
+
+    {{book.desc}}
+{% endif %}
+<a href="/books">Go Back</a>  -->
